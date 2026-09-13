@@ -1,6 +1,6 @@
 # ReplyAI — лендинг SaaS
 
-**Демо:** https://philippkasharov-bit.github.io/replyai-landing/
+**Кейс-стади:** [case-study.html](case-study.html) · **Демо:** https://philippkasharov-bit.github.io/replyai-landing/
 
 Концепт лендинга ИИ-консультанта для бизнеса: анимированный чат, возможности, тарифы, отзывы, форма заявки.
 
