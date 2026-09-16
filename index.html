@@ -12,9 +12,9 @@
    на сигнальной линии. Через всю страницу идёт линия диалога.
    ============================================================ */
 :root{
- --void:#0b0c0b;--ink:#ece9e2;--signal:#cdfa4e;
+ --void:#0b0c0b;--ink:#ece9e2;--signal:#cdfa4e;--client:#ff7d4d;
  --ink-60:rgba(236,233,226,.6);--ink-35:rgba(236,233,226,.35);--rule:rgba(236,233,226,.14);
- --surface:#131513;--surface-2:#191c19;
+ --surface:#131513;--surface-2:#191c19;--field:#0f1310;--field-2:#11100e;
  --pad:clamp(20px,5vw,84px);--spine:clamp(20px,5vw,84px);
  --gap:clamp(24px,4vw,72px);
  --air-s:clamp(48px,7vw,96px);--air:clamp(90px,13vw,190px);--air-l:clamp(130px,20vw,290px);
@@ -240,6 +240,39 @@ footer:hover .ft-mark{opacity:.12}
  .wrap{padding-left:calc(14px + 22px);padding-right:var(--pad)}
  .ask{justify-content:flex-start}
 }
+/* ---------- цвет как роль: лайм = ассистент, коралл = клиент ---------- */
+.ask span{border-color:rgba(255,125,77,.42);color:var(--ink);position:relative}
+.ask span::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:2px;background:var(--client)}
+.hero .ask span{font-size:15px}
+.u{border-right:2px solid var(--client);padding-right:13px}
+.deal em{color:var(--client);border-color:rgba(255,125,77,.35)}
+.deal-dot{background:var(--client)}
+.qa-row:hover .n{color:var(--client)}
+.qa-row{transition:border-color .5s var(--ease)}
+.qa-row:hover{border-color:rgba(255,125,77,.35)}
+.hero-note b{background:var(--client)}
+.meter b{color:var(--signal)}
+.meter div:nth-child(2) b{color:var(--client)}
+.st:nth-child(2){border-top-color:var(--client)}
+.st:nth-child(2) .n{color:var(--client)}
+.r:nth-child(2).answer::before{background:var(--client)}
+.spine-dot.wide{background:var(--client);box-shadow:0 0 0 8px rgba(255,125,77,.14)}
+
+/* ---------- ритм по светлоте: главы-поля ---------- */
+#demo{background:var(--field);border-block:1px solid var(--rule)}
+#pricing{background:var(--field-2);border-block:1px solid var(--rule)}
+#demo .chat{background:var(--void)}
+#demo .inp input,#demo .quick button{background:rgba(11,12,11,.6)}
+.hot{background:rgba(205,250,78,.05)}
+.hd-cell.hot{background:rgba(205,250,78,.07)}
+
+/* ---------- полировка состояний ---------- */
+.go:focus-visible,.b1:focus-visible,.b2:focus-visible,.cta:focus-visible{outline-offset:3px}
+.b1 span,.b2 span{transition:transform .4s var(--ease)}
+.b1:hover span,.b2:hover span{transform:translateX(3px)}
+.quick button:active,.go:active,.b1:active{transform:translateY(1px)}
+.ch-head .lbl{color:var(--signal)}
+.hero .lbl{color:var(--client)}
 </style></head><body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
 <div class="spine" aria-hidden="true"></div><div class="spine-dot" aria-hidden="true"></div>
