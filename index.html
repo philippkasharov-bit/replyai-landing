@@ -273,6 +273,65 @@ footer:hover .ft-mark{opacity:.12}
 .quick button:active,.go:active,.b1:active{transform:translateY(1px)}
 .ch-head .lbl{color:var(--signal)}
 .hero .lbl{color:var(--client)}
+/* ===================== ревизия по итогам критики ===================== */
+/* P0 — контраст мелкого текста: служебный цвет поднят до 6:1 */
+:root{--ink-meta:rgba(236,233,226,.62)}
+.rowlbl,.cellrow>.rowlbl,.r cite,.form-msg,.ft,.hero-note,.ch-bar .clock,.deal small,.dash,.st p,.lbl{color:var(--ink-meta)}
+.lbl{color:var(--ink-meta)}
+.hero .lbl{color:var(--client)}
+.ch-head .lbl{color:var(--signal)}
+.pf{color:var(--ink-meta)}
+
+/* P1 — третья строка заголовка перестаёт быть нечитаемой */
+h1 .dim{color:rgba(236,233,226,.58)}
+
+/* P1 — цели нажатия 44px */
+header nav a{padding-block:13px}
+.go{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.ft a{display:inline-block;padding:12px 2px}
+.ft{align-items:center}
+.quick button{min-height:44px}
+.bill button{min-height:44px}
+.burger{min-height:44px}
+
+/* P2 — описание больше не отрывается от заголовка */
+.qa-row{grid-template-columns:minmax(0,24ch) minmax(0,1fr);column-gap:clamp(18px,2.4vw,44px)}
+.qa-row:nth-child(3n-1){grid-template-columns:minmax(0,28ch) minmax(0,1fr)}
+.qa-row p{max-width:52ch}
+
+/* P3 — финал: последняя глава становится светлым пятном */
+#start{background:var(--signal);color:var(--void);margin-top:var(--air);padding-block:var(--air-s) var(--air-s)}
+#start{position:relative}
+#start::before{content:"";position:absolute;left:var(--spine);top:0;bottom:0;width:1px;background:rgba(11,12,11,.32);z-index:7}
+.spine-dot.dark{background:var(--void);box-shadow:0 0 0 7px rgba(11,12,11,.12)}
+@media(max-width:860px){#start::before{left:14px}}
+.qa-row{grid-template-columns:minmax(0,34ch) minmax(0,1fr)!important;align-items:start}
+.qa-row:nth-child(3n-1){grid-template-columns:minmax(0,38ch) minmax(0,1fr)!important}
+.qa-row h3{max-width:18ch}
+#start .lbl{color:rgba(11,12,11,.62)}
+#start .ask span{background:rgba(11,12,11,.06);border-color:rgba(11,12,11,.3);color:var(--void)}
+#start .ask span::before{background:var(--void)}
+#start .answer::before{background:var(--void)}
+#start h2{color:var(--void)}
+#start .sub{color:rgba(11,12,11,.72)}
+#start input{background:rgba(11,12,11,.06);border-color:rgba(11,12,11,.28);color:var(--void)}
+#start input::placeholder{color:rgba(11,12,11,.5)}
+#start input:focus{outline:none;border-color:var(--void)}
+#start input[aria-invalid]{border-color:#8f2b00}
+#start .b1{background:var(--void);border-color:var(--void);color:var(--signal)}
+#start .b1:hover{background:transparent;color:var(--void)}
+#start .form-msg{color:rgba(11,12,11,.66)}
+#start .form-msg[data-state=ok]{color:var(--void)}
+#start .form-msg[data-state=error]{color:#7a2400}
+#start ::selection{background:var(--void);color:var(--signal)}
+footer{margin-top:0;background:var(--void);padding-top:var(--air-s)}
+
+/* мобильный: логика «клиент справа» сохраняется */
+@media(max-width:860px){
+ .ask{justify-content:flex-end}
+ .ask span{max-width:26ch;font-size:14px}
+ .go{width:100%}
+}
 </style></head><body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
 <div class="spine" aria-hidden="true"></div><div class="spine-dot" aria-hidden="true"></div>
@@ -333,7 +392,7 @@ footer:hover .ft-mark{opacity:.12}
  <div class="demo">
   <div class="answer reveal" data-anim="rise">
    <h2>Спросите<br>прямо здесь</h2>
-   <p class="sub" style="margin-top:20px">Ассистент отвечает по данным клиники, а каждый распознанный вопрос сразу превращается в сделку — она появляется под диалогом.</p>
+   <p class="sub" style="margin-top:20px">Ассистент отвечает по данным клиники, а каждый распознанный вопрос сразу превращается в сделку: она появляется под диалогом.</p>
   </div>
   <div class="chat reveal" data-anim="depth">
    <div class="ch-bar"><div class="av">AI</div><div><b>Ассистент клиники</b><small>онлайн</small></div><span class="clock">ответ ≈ 3 с</span></div>
@@ -341,7 +400,7 @@ footer:hover .ft-mark{opacity:.12}
     <div class="m u">Сколько стоит чистка зубов? Можно в субботу?</div>
     <div class="m a">Профессиональная чистка — 4 500 ₽. В субботу свободно 11:00 и 14:30. Записать вас?</div>
     <div class="m u">Да, на 11:00</div>
-    <div class="m a">Готово. Отправил подтверждение — до встречи!</div>
+    <div class="m a">Готово. Отправил подтверждение, до встречи!</div>
    </div>
    <div class="quick" id="quick" aria-label="Задайте вопрос ассистенту"></div>
    <form class="inp" id="chat-form" data-demo="chat"><input id="chat-in" aria-label="Сообщение ассистенту" placeholder="Спросите что-нибудь…" autocomplete="off"><button type="submit" aria-label="Отправить"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#0b0c0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form>
@@ -398,7 +457,7 @@ footer:hover .ft-mark{opacity:.12}
   <div class="ask"><span>А у кого-то это уже работает?</span></div>
  </div>
  <div class="revs">
-  <div class="r answer reveal" data-anim="type"><blockquote>«За первый месяц бот записал 140 пациентов, половину — в нерабочее время»</blockquote><cite>Ирина Л., управляющая клиникой DENTA+</cite></div>
+  <div class="r answer reveal" data-anim="type"><blockquote>«За первый месяц бот записал 140 пациентов, половину в нерабочее время»</blockquote><cite>Ирина Л., управляющая клиникой DENTA+</cite></div>
   <div class="r answer reveal" data-anim="type" style="--d:100ms"><blockquote>«Подключили за вечер. Конверсия из обращения в пробную тренировку выросла с 18% до 27%»</blockquote><cite>Олег С., владелец студии FITLAB</cite></div>
  </div>
 </section>
@@ -410,7 +469,7 @@ footer:hover .ft-mark{opacity:.12}
   <div class="ask"><span>Хочу попробовать на своих данных</span></div>
  </div>
  <div class="start">
-  <div class="answer reveal" data-anim="rise"><h2>Попробуйте<br>14 дней бесплатно</h2><p class="sub" style="margin-top:18px">Оставьте контакты — поможем настроить бота под ваш бизнес за 15 минут.</p></div>
+  <div class="answer reveal" data-anim="rise"><h2>Попробуйте<br>14 дней бесплатно</h2><p class="sub" style="margin-top:18px">Оставьте контакты, и мы поможем настроить бота под ваш бизнес за 15 минут.</p></div>
   <form class="reveal" data-anim="rise" style="--d:120ms">
    <input aria-label="Ваше имя" required placeholder="Ваше имя">
    <input aria-label="Телефон" required type="tel" autocomplete="tel" placeholder="Телефон">
@@ -533,6 +592,7 @@ footer:hover .ft-mark{opacity:.12}
     links.forEach(a=>{const id=a.getAttribute('href').slice(1);
       active&&active.id===id?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current');});
     dot.classList.toggle('wide',!!active&&(active.id==='demo'||active.id==='pricing'));
+    dot.classList.toggle('dark',!!active&&active.id==='start');
     tick=false;
   };
   addEventListener('scroll',()=>{if(!tick&&!reduce){tick=true;requestAnimationFrame(upd)}else if(reduce)upd();},{passive:true});
