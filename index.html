@@ -118,17 +118,22 @@ section.blk{padding-block:var(--air)}
 .sec-head .sub{max-width:34ch}
 .sec-head.push{margin-left:clamp(0px,18vw,340px)}
 
-/* возможности: ступенчатые строки */
-.spec{margin-top:var(--air-s)}
-.f{display:grid;grid-template-columns:clamp(58px,7vw,120px) minmax(0,1fr);gap:clamp(16px,3vw,48px);align-items:baseline;padding-block:clamp(26px,3.4vw,52px);border-top:1px solid var(--rule);transition:padding-left .6s var(--ease)}
-.f:last-child{border-bottom:1px solid var(--rule)}
-.f:hover{padding-left:clamp(0px,1.6vw,26px)}
-.f .num{font-family:var(--display);font-size:clamp(28px,3.4vw,58px);color:var(--ink-40);line-height:1;transition:color .5s}
-.f:hover .num{color:var(--lime)}
-.f-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(12px,3vw,56px);align-items:baseline}
-.f b{font-family:var(--display);font-size:clamp(25px,3vw,48px);font-weight:400;letter-spacing:-.02em;line-height:1}
-.f p{color:var(--ink-70);max-width:44ch}
-.f:nth-child(even) .f-body{padding-left:clamp(0px,4vw,80px)}
+/* возможности: первая — ведущая, дальше двухколоночный список */
+.spec{margin-top:var(--air-s);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gap);border-top:1px solid var(--rule)}
+.f{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:clamp(14px,1.6vw,26px);row-gap:10px;align-items:baseline;padding-block:clamp(24px,2.8vw,40px);border-bottom:1px solid var(--rule);transition:padding-left .6s var(--ease)}
+.f:hover{padding-left:clamp(0px,1.2vw,18px)}
+.f .num{font-family:var(--display);font-size:clamp(17px,1.5vw,24px);color:var(--ink-40);line-height:1;transition:color .5s}
+.f:hover .num{color:var(--ink)}
+.f-body{display:grid;gap:10px}
+.f b{font-family:var(--display);font-size:clamp(24px,2.4vw,38px);font-weight:400;letter-spacing:-.02em;line-height:1.02}
+.f p{color:var(--ink-70);max-width:38ch;font-size:15.5px}
+.f:first-child{grid-column:1/-1;padding-block:clamp(30px,3.6vw,56px)}
+.f:first-child b{font-size:clamp(34px,5vw,80px);line-height:.96}
+.f:first-child p{font-size:clamp(17px,1.4vw,20px);max-width:42ch}
+.f:first-child .num{font-size:clamp(20px,2vw,30px)}
+.f:nth-child(even){padding-right:clamp(0px,2vw,40px)}
+.f:last-child{grid-column:1/-1;padding-right:0}
+.f:last-child p{max-width:52ch}
 
 /* шаги: сбитая по вертикали сетка */
 .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap);margin-top:var(--air-s)}
@@ -219,6 +224,9 @@ footer{padding-block:clamp(40px,5vw,70px);border-top:1px solid var(--rule);font-
 .skip-link:focus{top:12px}
 
 @media(max-width:1040px){
+ .spec{grid-template-columns:1fr;column-gap:0}
+ .f:first-child b{font-size:clamp(30px,7vw,48px)}
+ .f p{max-width:46ch}
  .st{padding-left:0}
  .st .n{position:static;display:block;margin-bottom:10px;color:var(--ink-40)}
  .st b{margin-top:0}
