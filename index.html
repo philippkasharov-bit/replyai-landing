@@ -428,8 +428,8 @@ main,footer,.spine,.spine-dot{position:relative;z-index:2}
 /* 4 · карточки: материал вместо коробок, асимметричная сетка */
 .qa{grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(12px,1.2vw,18px)}
 .qa-row{grid-column:span 3;position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(236,233,226,.05),rgba(236,233,226,0) 46%),var(--surface);border:1px solid var(--rule);padding:clamp(24px,2.4vw,38px);gap:14px}
-.qa-row::after{content:"";position:absolute;inset:auto auto 0 0;height:1px;width:0;background:var(--client);transition:width .7s var(--ease)}
-.qa-row:hover::after{width:100%}
+.qa-row::after{content:"";position:absolute;inset:auto 0 0 0;height:1px;background:var(--client);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.qa-row:hover::after{transform:scaleX(1)}
 .qa-row .n{display:inline-flex;align-items:center;justify-content:center;min-width:2.6em;height:2.6em;border:1px solid var(--rule);color:var(--ink-meta);font-size:11px;letter-spacing:.14em;margin-bottom:4px;transition:border-color .5s,color .5s}
 .qa-row:hover .n{border-color:var(--client);color:var(--client)}
 .qa-row:first-child{grid-column:span 6;background:linear-gradient(150deg,rgba(205,250,78,.1),rgba(205,250,78,0) 42%),var(--surface);border-color:rgba(205,250,78,.32)}
@@ -440,8 +440,8 @@ main,footer,.spine,.spine-dot{position:relative;z-index:2}
 .qa-row:nth-child(7){grid-column:span 2}
 .st,.hd-cell,.r{position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(236,233,226,.05),rgba(236,233,226,0) 46%),var(--surface)}
 .hd-cell.hot{background:linear-gradient(150deg,rgba(205,250,78,.14),rgba(205,250,78,.02) 55%),var(--surface)}
-.st::after,.r::after{content:"";position:absolute;inset:auto auto 0 0;height:1px;width:0;background:var(--signal);transition:width .7s var(--ease)}
-.st:hover::after,.r:hover::after{width:100%}
+.st::after,.r::after{content:"";position:absolute;inset:auto 0 0 0;height:1px;background:var(--signal);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.st:hover::after,.r:hover::after{transform:scaleX(1)}
 .r:nth-child(2)::after{background:var(--client)}
 .b1,.cta,.go{will-change:transform}
 
