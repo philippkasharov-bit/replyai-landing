@@ -403,7 +403,7 @@ main,footer,.spine,.spine-dot{position:relative;z-index:2}
 @media(max-width:1040px){.field{display:none}}
 
 /* 2 · закреплённый первый экран и лента реплик */
-.hero-stage{position:relative}
+.hero-stage{position:relative;overflow:clip}
 @media(min-width:1041px){
  .hero-stage{height:190vh}
  .hero{position:sticky;top:0;height:100vh;min-height:0;overflow:hidden;padding-block:clamp(90px,11vw,140px) 0;justify-content:center}
@@ -455,6 +455,69 @@ main,footer,.spine,.spine-dot{position:relative;z-index:2}
  .hero{position:static!important;height:auto!important}
  .reel{display:none}
  [data-type] .caret{display:none}
+}
+/* ============ LAYOUT / POLISH / HARDEN: ритм как у продуктовых SaaS ============ */
+:root{
+ --air:clamp(68px,7vw,108px);
+ --air-s:clamp(32px,3.4vw,52px);
+ --air-l:clamp(80px,9vw,140px);
+ --shell:1320px;
+}
+/* единая колонка контента вместо растекания */
+.wrap{max-width:calc(var(--shell) + var(--spine) + clamp(14px,3vw,54px) + var(--pad));margin-inline:auto}
+main,footer{max-width:none}
+
+/* секции: ровный вертикальный ритм */
+section.ch{padding-block:var(--air)}
+#demo,#pricing{padding-block:var(--air-l)}
+.ch-head{margin-bottom:var(--air-s);gap:14px}
+
+/* шапка главы: метка и реплика клиента в одну строку */
+.ch-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;column-gap:clamp(18px,3vw,50px)}
+.ch-head .lbl{grid-column:1;align-self:center}
+.ch-head .ask{grid-column:2;grid-row:1;margin:0}
+.ch-head .answer,.ch-head>h2,.ch-head .sub,.ch-head .bill{grid-column:1/-1}
+.ch-head .sub{margin-top:-4px}
+.ch-head .bill{justify-self:start;margin-top:6px}
+
+/* первый экран: меньше пустоты, плотнее финал закрепления */
+@media(min-width:1041px){
+ .hero-stage{height:155vh}
+ .hero{padding-block:clamp(96px,9vw,128px) 0}
+ .hero .meter{bottom:7vh}
+ .reel{inset:auto 0 24vh 0}
+}
+.hero-foot{margin-top:clamp(22px,3vw,38px)}
+.meter{padding-top:18px;gap:clamp(16px,2.6vw,44px)}
+
+/* демо: колонки выровнены, провал убран */
+.demo{align-items:center;gap:clamp(20px,3vw,56px)}
+.demo .answer{align-self:center}
+.chat{align-self:stretch}
+
+/* карточки: одинаковая высота содержимого и аккуратные переносы */
+.qa-row,.st,.hd-cell,.r{overflow-wrap:anywhere}
+.qa-row{align-content:start}
+.st{display:grid;align-content:start;gap:8px}
+.steps{align-items:stretch}
+.hd-cell{height:100%}
+
+/* отзывы и финал: плотнее */
+.revs{margin-top:var(--air-s);gap:clamp(12px,1.2vw,18px)}
+#start{margin-top:0;padding-block:var(--air) var(--air-s)}
+#start .start{padding-block:0}
+footer{padding-top:var(--air-s)}
+.ft-mark{margin-top:clamp(18px,2.4vw,36px)}
+
+/* доступность и устойчивость */
+.qa-row h3,.st h3,.hd-cell b{text-wrap:balance}
+.form-msg{margin-top:2px}
+#start .b1:disabled{opacity:1;background:rgba(11,12,11,.82);border-color:transparent;color:var(--signal);cursor:progress}
+input,button,a{overflow-wrap:break-word}
+@media(max-width:1040px){
+ .ch-head{grid-template-columns:1fr}
+ .ch-head .ask{grid-column:1;grid-row:auto;justify-content:flex-end}
+ #demo,#pricing{padding-block:var(--air)}
 }
 </style></head><body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
@@ -603,9 +666,9 @@ main,footer,.spine,.spine-dot{position:relative;z-index:2}
  <div class="start">
   <div class="answer reveal" data-anim="rise"><h2>Попробуйте<br>14 дней бесплатно</h2><p class="sub" style="margin-top:18px">Оставьте контакты, и мы поможем настроить бота под ваш бизнес за 15 минут.</p></div>
   <form class="reveal" data-anim="rise" style="--d:120ms">
-   <input aria-label="Ваше имя" required placeholder="Ваше имя">
-   <input aria-label="Телефон" required type="tel" autocomplete="tel" placeholder="Телефон">
-   <input aria-label="Сайт компании" placeholder="Сайт компании">
+   <input aria-label="Ваше имя" name="name" required placeholder="Ваше имя" autocomplete="name" enterkeyhint="next" maxlength="60">
+   <input aria-label="Телефон" name="phone" required type="tel" autocomplete="tel" inputmode="tel" placeholder="Телефон" enterkeyhint="next" maxlength="24">
+   <input aria-label="Сайт компании" name="site" placeholder="Сайт компании" autocomplete="url" inputmode="url" enterkeyhint="send" maxlength="80">
    <button class="b1">Начать бесплатно <span aria-hidden="true">→</span></button>
   </form>
  </div>
@@ -797,7 +860,7 @@ main,footer,.spine,.spine-dot{position:relative;z-index:2}
     answer.style.transform = 'translate3d(0,' + (-p * 9) + 'vh,0) scale(' + (1 - p * .15) + ')';
     answer.style.opacity = String(1 - p * .85);
     answer.style.filter = p > .12 ? 'blur(' + ((p - .12) * 7).toFixed(2) + 'px)' : 'none';
-    if (ask) { ask.style.transform = 'translate3d(' + (p * 14).toFixed(1) + 'vw,0,0)'; ask.style.opacity = String(1 - p * 1.25); }
+    if (ask) { ask.style.transform = 'translate3d(' + (p * 7).toFixed(1) + 'vw,0,0)'; ask.style.opacity = String(1 - p * 1.25); }
     if (meter) {
       meter.style.transform = 'translate3d(0,' + ((1 - p) * 28).toFixed(1) + 'px,0)';
       meter.style.opacity = String(Math.max(0, Math.min(1, (p - .35) * 3)));
