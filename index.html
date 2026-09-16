@@ -96,7 +96,7 @@ section.ch{padding-block:var(--air)}
 .qa-row p{color:var(--ink-60);max-width:44ch}
 .qa-row .n{font-family:var(--disp);font-weight:500;font-size:12px;letter-spacing:.2em;color:var(--ink-35);display:block;margin-bottom:12px}
 .qa-row:nth-child(3n-1){grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
-.qa-row:nth-child(3n-1) h3{font-size:clamp(26px,3.4vw,58px)}
+
 
 /* ---------- 02 · живой ответ (демо) ---------- */
 .demo{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--gap);align-items:end}
@@ -305,8 +305,8 @@ header nav a{padding-block:13px}
 #start::before{content:"";position:absolute;left:var(--spine);top:0;bottom:0;width:1px;background:rgba(11,12,11,.32);z-index:7}
 .spine-dot.dark{background:var(--void);box-shadow:0 0 0 7px rgba(11,12,11,.12)}
 @media(max-width:860px){#start::before{left:14px}}
-.qa-row{grid-template-columns:minmax(0,34ch) minmax(0,1fr)!important;align-items:start}
-.qa-row:nth-child(3n-1){grid-template-columns:minmax(0,38ch) minmax(0,1fr)!important}
+.qa-row{align-items:start}
+.qa-row:nth-child(3n-1){grid-template-columns:minmax(0,38ch) minmax(0,1fr)}
 .qa-row h3{max-width:18ch}
 #start .lbl{color:rgba(11,12,11,.62)}
 #start .ask span{background:rgba(11,12,11,.06);border-color:rgba(11,12,11,.3);color:var(--void)}
@@ -331,6 +331,70 @@ footer{margin-top:0;background:var(--void);padding-top:var(--air-s)}
  .ask{justify-content:flex-end}
  .ask span{max-width:26ch;font-size:14px}
  .go{width:100%}
+}
+/* ============ ревизия: карточки, яркие реплики, срезы букв ============ */
+/* ширина контента: на больших экранах страница больше не растекается */
+main,footer{max-width:1680px;margin-inline:auto}
+
+/* реплики клиента ярче и заметнее */
+.ask span{background:rgba(255,125,77,.14);border:1px solid rgba(255,125,77,.6);color:var(--ink);font-size:15.5px;padding:14px 20px;box-shadow:0 0 0 4px rgba(255,125,77,.06)}
+.ask span::before{width:3px;background:var(--client)}
+#start .ask span{background:rgba(11,12,11,.1);border-color:rgba(11,12,11,.45)}
+
+/* срезы букв: даём строкам воздух и не режем выносные элементы */
+h1{line-height:1.02;padding-bottom:.06em}
+h1 span{display:block;padding-block:.02em .06em}
+h2{line-height:1.04;padding-bottom:.04em}
+.js [data-anim=type]{clip-path:inset(-.18em 100% -.18em -.12em)}
+.js [data-anim=type].in{clip-path:inset(-.18em -.12em -.18em -.12em)}
+.r blockquote{line-height:1.14}
+.sum{line-height:1.12;padding-bottom:.04em}
+
+/* показатели первого экрана — единый сигнальный цвет */
+.meter div:nth-child(2) b{color:var(--signal)}
+.meter{gap:clamp(18px,3vw,56px)}
+
+/* ---------- карточки: возможности ---------- */
+.qa{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+.qa-row{grid-template-columns:1fr!important;gap:12px;background:var(--surface);border:1px solid var(--rule);border-top:1px solid var(--rule);padding:clamp(22px,2.4vw,34px);transition:transform .5s var(--ease),border-color .5s var(--ease),background .5s var(--ease)}
+.qa-row:hover{transform:translateY(-3px);border-color:rgba(255,125,77,.45);background:var(--surface-2)}
+.qa-row h3{max-width:none;font-size:clamp(21px,2vw,30px)}
+.qa-row p{max-width:46ch;color:var(--ink-meta)}
+.qa-row:first-child{grid-column:1/-1;background:linear-gradient(0deg,var(--surface),var(--surface));border-color:rgba(205,250,78,.35)}
+.qa-row:first-child h3{font-size:clamp(28px,3.6vw,56px)}
+.qa-row:first-child p{font-size:clamp(16px,1.3vw,19px);max-width:52ch}
+.qa-row:first-child .n{color:var(--signal)}
+
+/* ---------- карточки: запуск ---------- */
+.steps{gap:clamp(14px,1.6vw,22px)}
+.st{border:1px solid var(--rule);border-top:2px solid var(--signal);background:var(--surface);padding:clamp(22px,2.4vw,34px);margin-top:0!important;transition:transform .5s var(--ease),border-color .5s var(--ease)}
+.st:hover{transform:translateY(-3px)}
+.st:nth-child(2){border-top-color:var(--client)}
+.st p{color:var(--ink-meta)}
+
+/* ---------- карточки: тарифы ---------- */
+.plans{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:clamp(14px,1.6vw,22px);border-top:0!important}
+.plans>.rowlbl,.plans .cellrow{display:none!important}
+.hd-cell{display:grid!important;justify-items:start;gap:12px;border:1px solid var(--rule);background:var(--surface);padding:clamp(24px,2.6vw,36px);align-content:start;transition:transform .5s var(--ease),border-color .5s var(--ease)}
+.hd-cell:hover{transform:translateY(-3px);border-color:rgba(205,250,78,.4)}
+.hd-cell.hot{border-color:var(--signal);background:rgba(205,250,78,.06);box-shadow:none}
+.pf{display:grid!important;margin:4px 0 10px}
+.go{width:100%;text-align:center;margin-top:auto}
+.hd-cell{grid-template-rows:auto auto auto 1fr auto}
+
+/* ---------- карточки: отзывы ---------- */
+.revs{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,22px)}
+.r{margin:0!important;max-width:none!important;border:1px solid var(--rule);background:var(--surface);padding:clamp(24px,2.6vw,40px);transition:transform .5s var(--ease),border-color .5s var(--ease)}
+.r:hover{transform:translateY(-3px);border-color:rgba(255,125,77,.4)}
+.r.answer{padding-left:clamp(24px,2.6vw,40px)}
+.r.answer::before{left:0;top:0;bottom:0;width:3px}
+.r blockquote{font-size:clamp(20px,1.9vw,30px)}
+.r:nth-child(2) blockquote{font-size:clamp(20px,1.9vw,30px)}
+.r cite{color:var(--ink-meta)}
+
+@media(max-width:1040px){
+ .qa,.revs,.plans{grid-template-columns:1fr!important}
+ .qa-row:first-child{grid-column:auto}
 }
 </style></head><body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
@@ -572,6 +636,17 @@ footer{margin-top:0;background:var(--void);padding-top:var(--air-s)}
 (() => {
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -12% 0px'});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // элементы, уже попавшие в первый экран, показываем сразу:
+  // clip-path делает их невидимыми для IntersectionObserver
+  requestAnimationFrame(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<innerHeight*0.92){el.classList.add('in');io.unobserve(el)}
+  }));
+  // страховка на случай динамических сдвигов
+  addEventListener('scroll',()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<innerHeight*0.88&&r.bottom>0){el.classList.add('in');io.unobserve(el)}
+  }),{passive:true});
 })();
 </script>
 <script>
