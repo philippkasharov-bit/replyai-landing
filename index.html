@@ -396,8 +396,69 @@ h2{line-height:1.04;padding-bottom:.04em}
  .qa,.revs,.plans{grid-template-columns:1fr!important}
  .qa-row:first-child{grid-column:auto}
 }
+/* ==================== OVERDRIVE ==================== */
+/* 1 · сигнальное поле под контентом */
+.field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.9}
+main,footer,.spine,.spine-dot{position:relative;z-index:2}
+@media(max-width:1040px){.field{display:none}}
+
+/* 2 · закреплённый первый экран и лента реплик */
+.hero-stage{position:relative}
+@media(min-width:1041px){
+ .hero-stage{height:190vh}
+ .hero{position:sticky;top:0;height:100vh;min-height:0;overflow:hidden;padding-block:clamp(90px,11vw,140px) 0;justify-content:center}
+ .hero-answer,.hero .meter{will-change:transform,opacity}
+ .hero-foot,.hero .ask,.hero .lbl{position:relative;z-index:3}
+ .hero .meter{position:absolute;left:0;right:0;bottom:9vh;margin:0;z-index:3;padding-left:calc(var(--spine) + clamp(14px,3vw,54px));padding-right:var(--pad)}
+ .reel{position:absolute;inset:auto 0 5vh 0;z-index:0;height:3.6em;pointer-events:none;overflow:hidden}
+ .reel-q{position:absolute;top:0;left:0;white-space:nowrap;font-family:var(--disp);font-weight:500;font-size:clamp(20px,2.1vw,34px);letter-spacing:-.02em;color:rgba(255,125,77,.4);will-change:transform}
+ .reel-q:nth-child(2){top:1.2em;color:rgba(236,233,226,.13)}
+ .reel-q:nth-child(3){top:2.4em;color:rgba(205,250,78,.18)}
+}
+@media(max-width:1040px){.reel{display:none}}
+
+/* 3 · печать заголовков и импульс линии */
+[data-type]{white-space:pre-wrap}
+[data-type] .caret{display:inline-block;width:.055em;height:.78em;margin-left:.06em;background:var(--signal);vertical-align:-.04em;animation:caret .8s steps(2) infinite}
+@keyframes caret{50%{opacity:.15}}
+.spine-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--signal);opacity:0}
+.spine-dot.ping::after{animation:ping .9s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes ping{from{opacity:.9;transform:scale(1)}to{opacity:0;transform:scale(6)}}
+
+/* 4 · карточки: материал вместо коробок, асимметричная сетка */
+.qa{grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(12px,1.2vw,18px)}
+.qa-row{grid-column:span 3;position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(236,233,226,.05),rgba(236,233,226,0) 46%),var(--surface);border:1px solid var(--rule);padding:clamp(24px,2.4vw,38px);gap:14px}
+.qa-row::after{content:"";position:absolute;inset:auto auto 0 0;height:1px;width:0;background:var(--client);transition:width .7s var(--ease)}
+.qa-row:hover::after{width:100%}
+.qa-row .n{display:inline-flex;align-items:center;justify-content:center;min-width:2.6em;height:2.6em;border:1px solid var(--rule);color:var(--ink-meta);font-size:11px;letter-spacing:.14em;margin-bottom:4px;transition:border-color .5s,color .5s}
+.qa-row:hover .n{border-color:var(--client);color:var(--client)}
+.qa-row:first-child{grid-column:span 6;background:linear-gradient(150deg,rgba(205,250,78,.1),rgba(205,250,78,0) 42%),var(--surface);border-color:rgba(205,250,78,.32)}
+.qa-row:first-child .n{border-color:rgba(205,250,78,.5);color:var(--signal)}
+.qa-row:nth-child(4){grid-column:span 2}
+.qa-row:nth-child(5){grid-column:span 4}
+.qa-row:nth-child(6){grid-column:span 4}
+.qa-row:nth-child(7){grid-column:span 2}
+.st,.hd-cell,.r{position:relative;overflow:hidden;background:linear-gradient(160deg,rgba(236,233,226,.05),rgba(236,233,226,0) 46%),var(--surface)}
+.hd-cell.hot{background:linear-gradient(150deg,rgba(205,250,78,.14),rgba(205,250,78,.02) 55%),var(--surface)}
+.st::after,.r::after{content:"";position:absolute;inset:auto auto 0 0;height:1px;width:0;background:var(--signal);transition:width .7s var(--ease)}
+.st:hover::after,.r:hover::after{width:100%}
+.r:nth-child(2)::after{background:var(--client)}
+.b1,.cta,.go{will-change:transform}
+
+@media(max-width:1040px){
+ .qa{grid-template-columns:1fr}
+ .qa-row,.qa-row:first-child,.qa-row:nth-child(4),.qa-row:nth-child(5),.qa-row:nth-child(6),.qa-row:nth-child(7){grid-column:auto}
+}
+@media(prefers-reduced-motion:reduce){
+ .field{display:none}
+ .hero-stage{height:auto!important}
+ .hero{position:static!important;height:auto!important}
+ .reel{display:none}
+ [data-type] .caret{display:none}
+}
 </style></head><body>
 <a class="skip-link" href="#main">Перейти к содержанию</a>
+<canvas class="field" aria-hidden="true"></canvas>
 <div class="spine" aria-hidden="true"></div><div class="spine-dot" aria-hidden="true"></div>
 
 <header><div class="wrap hd">
@@ -410,7 +471,12 @@ h2{line-height:1.04;padding-bottom:.04em}
 <main id="main">
 
 <!-- 00 · вопрос → ответ -->
-<section class="hero wrap">
+<div class="hero-stage"><section class="hero wrap">
+<div class="reel" aria-hidden="true">
+  <span class="reel-q" data-speed="1">«Работаете в воскресенье?»</span>
+  <span class="reel-q" data-speed="1.45">«Можно перенести запись?»</span>
+  <span class="reel-q" data-speed="0.8">«Сколько стоит консультация?»</span>
+ </div>
  <p class="lbl">00 — Клиент пишет</p>
  <div class="ask"><span>Сколько стоит чистка зубов? Можно в субботу?</span></div>
  <div class="answer hero-answer">
@@ -429,12 +495,14 @@ h2{line-height:1.04;padding-bottom:.04em}
  </div>
 </section>
 
+</div>
+
 <!-- 01 · возможности -->
 <section class="ch wrap" id="features">
  <div class="ch-head">
   <p class="lbl">01 — Что он делает</p>
   <div class="ask"><span>А он справится без администратора?</span></div>
-  <div class="answer"><h2 class="reveal" data-anim="type">Всё, что делает хороший администратор</h2></div>
+  <div class="answer"><h2 class="reveal" data-type>Всё, что делает хороший администратор</h2></div>
   <p class="sub reveal" data-anim="rise">Обучается на ваших прайсах, FAQ и сайте за несколько минут.</p>
  </div>
  <div class="qa">
@@ -478,7 +546,7 @@ h2{line-height:1.04;padding-bottom:.04em}
  <div class="ch-head">
   <p class="lbl">03 — Запуск</p>
   <div class="ask"><span>Сколько времени займёт подключение?</span></div>
-  <div class="answer"><h2 class="reveal" data-anim="type">Три шага до первого диалога</h2></div>
+  <div class="answer"><h2 class="reveal" data-type>Три шага до первого диалога</h2></div>
  </div>
  <div class="steps">
   <div class="st reveal" data-anim="wipe"><span class="n">01</span><h3>Загрузите данные</h3><p>Ссылка на сайт, прайс или документ с ответами на частые вопросы.</p></div>
@@ -492,7 +560,7 @@ h2{line-height:1.04;padding-bottom:.04em}
  <div class="ch-head">
   <p class="lbl">04 — Тарифы</p>
   <div class="ask"><span>Сколько это стоит?</span></div>
-  <div class="answer"><h2 class="reveal" data-anim="type">От 1 990 ₽ в месяц</h2><p class="sub" style="margin-top:16px">14 дней бесплатно на любом тарифе.</p></div>
+  <div class="answer"><h2 class="reveal" data-type>От 1 990 ₽ в месяц</h2><p class="sub" style="margin-top:16px">14 дней бесплатно на любом тарифе.</p></div>
   <div class="bill" role="radiogroup" aria-label="Период оплаты">
    <button type="button" role="radio" aria-checked="true" data-period="m">Помесячно</button>
    <button type="button" role="radio" aria-checked="false" data-period="y">За год <em>−20%</em></button>
@@ -672,6 +740,142 @@ h2{line-height:1.04;padding-bottom:.04em}
   };
   addEventListener('scroll',()=>{if(!tick&&!reduce){tick=true;requestAnimationFrame(upd)}else if(reduce)upd();},{passive:true});
   upd();
+})();
+</script>
+<script>
+/* ============ OVERDRIVE: печать, закреплённый экран, поле сигнала, магнит ============ */
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const dot = document.querySelector('.spine-dot');
+
+  /* 1. заголовки глав печатаются по буквам */
+  const type = el => {
+    const text = el.dataset.text;
+    if (reduce) { el.textContent = text; return; }
+    const caret = document.createElement('span');
+    caret.className = 'caret';
+    let i = 0;
+    const step = () => {
+      i = Math.min(text.length, i + 1 + Math.floor(Math.random() * 2));
+      el.textContent = text.slice(0, i);
+      el.append(caret);
+      if (i < text.length) setTimeout(step, 16 + Math.random() * 30);
+      else {
+        setTimeout(() => caret.remove(), 900);
+        if (dot) { dot.classList.add('ping'); setTimeout(() => dot.classList.remove('ping'), 950); }
+      }
+    };
+    step();
+  };
+  const tio = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    tio.unobserve(e.target);
+    type(e.target);
+  }), { threshold: 0.3 });
+  document.querySelectorAll('[data-type]').forEach(el => {
+    el.dataset.text = el.textContent.trim();
+    el.style.minHeight = el.getBoundingClientRect().height + 'px';
+    if (!reduce) el.textContent = '';
+    tio.observe(el);
+  });
+
+  /* 2. закреплённый первый экран: реплики летят, ответ уходит вглубь */
+  const stage = document.querySelector('.hero-stage');
+  const answer = document.querySelector('.hero-answer');
+  const meter = document.querySelector('.meter');
+  const ask = document.querySelector('.hero .ask');
+  const reel = [...document.querySelectorAll('.reel-q')];
+  const pinned = () => matchMedia('(min-width:1041px)').matches && !reduce;
+  let raf = 0;
+  const frame = () => {
+    raf = 0;
+    if (!stage || !answer) return;
+    if (!pinned()) { answer.style.cssText = ''; if (meter) meter.style.cssText = ''; return; }
+    const span = stage.offsetHeight - innerHeight;
+    const p = Math.min(1, Math.max(0, -stage.getBoundingClientRect().top / (span || 1)));
+    answer.style.transform = 'translate3d(0,' + (-p * 9) + 'vh,0) scale(' + (1 - p * .15) + ')';
+    answer.style.opacity = String(1 - p * .85);
+    answer.style.filter = p > .12 ? 'blur(' + ((p - .12) * 7).toFixed(2) + 'px)' : 'none';
+    if (ask) { ask.style.transform = 'translate3d(' + (p * 14).toFixed(1) + 'vw,0,0)'; ask.style.opacity = String(1 - p * 1.25); }
+    if (meter) {
+      meter.style.transform = 'translate3d(0,' + ((1 - p) * 28).toFixed(1) + 'px,0)';
+      meter.style.opacity = String(Math.max(0, Math.min(1, (p - .35) * 3)));
+    }
+    reel.forEach(q => {
+      const s = parseFloat(q.dataset.speed) || 1;
+      q.style.transform = 'translate3d(' + ((1 - p * s) * 108 - 6).toFixed(2) + 'vw,0,0)';
+    });
+  };
+  addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
+  addEventListener('resize', () => { if (!raf) raf = requestAnimationFrame(frame); });
+  frame();
+
+  /* 3. сигнальное поле: сетка точек, реакция на курсор, вспышка ответа */
+  const cv = document.querySelector('.field');
+  if (cv && fine && !reduce) {
+    const ctx = cv.getContext('2d');
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    let W = 0, H = 0, pts = [], mx = -9999, my = -9999, wave = null, run = true;
+    const build = () => {
+      W = cv.width = Math.floor(innerWidth * dpr);
+      H = cv.height = Math.floor(innerHeight * dpr);
+      cv.style.width = innerWidth + 'px';
+      cv.style.height = innerHeight + 'px';
+      const gap = 54 * dpr;
+      pts = [];
+      for (let y = gap / 2; y < H; y += gap) for (let x = gap / 2; x < W; x += gap) pts.push({ x: x, y: y });
+    };
+    build();
+    addEventListener('resize', build);
+    addEventListener('pointermove', e => { mx = e.clientX * dpr; my = e.clientY * dpr; }, { passive: true });
+    addEventListener('pointerleave', () => { mx = my = -9999; });
+    const R = 155 * dpr;
+    const loop = () => {
+      if (!run) return;
+      ctx.clearRect(0, 0, W, H);
+      if (wave) { wave.r += 28 * dpr; if (wave.r > Math.hypot(W, H)) wave = null; }
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        const dx = p.x - mx, dy = p.y - my;
+        const d = Math.hypot(dx, dy);
+        const k = d < R ? 1 - d / R : 0;
+        let alpha = .09 + k * .5;
+        let rad = (.9 + k * 2) * dpr;
+        let col = k > .05 ? '205,250,78' : '236,233,226';
+        if (wave) {
+          const wd = Math.abs(Math.hypot(p.x - wave.x, p.y - wave.y) - wave.r);
+          const lim = 64 * dpr;
+          if (wd < lim) { const w = 1 - wd / lim; alpha = Math.max(alpha, .12 + w * .55); rad = Math.max(rad, (.9 + w * 2.3) * dpr); col = '205,250,78'; }
+        }
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(' + col + ',' + alpha.toFixed(3) + ')';
+        ctx.arc(p.x + dx * k * .15, p.y + dy * k * .15, rad, 0, 6.283);
+        ctx.fill();
+      }
+      requestAnimationFrame(loop);
+    };
+    loop();
+    document.addEventListener('visibilitychange', () => { run = !document.hidden; if (run) loop(); });
+    const pulse = () => { wave = { r: 0, x: 90 * dpr, y: innerHeight * dpr / 2 }; };
+    const log = document.getElementById('log');
+    if (log) new MutationObserver(() => { if (log.querySelector('.streaming')) pulse(); })
+      .observe(log, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+  }
+
+  /* 4. магнитные кнопки */
+  if (fine && !reduce) {
+    document.querySelectorAll('.b1,.cta,.go').forEach(btn => {
+      let f = 0;
+      btn.addEventListener('pointermove', e => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        if (!f) f = requestAnimationFrame(() => { f = 0; btn.style.transform = 'translate3d(' + (dx * .15).toFixed(1) + 'px,' + (dy * .2).toFixed(1) + 'px,0)'; });
+      });
+      btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+    });
+  }
 })();
 </script>
 </body></html>
